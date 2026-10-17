@@ -1,5 +1,7 @@
 package com.practica.uno.entity;
 
-public class EstadoAprobacion {
-
+public enum EstadoAprobacion {
+    PENDIENTE,
+    APROBADO,
+    RECHAZADO
 }
