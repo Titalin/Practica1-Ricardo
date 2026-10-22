@@ -47,7 +47,6 @@ public Division actualizarDivision(Long id, Division datos) {
     division.setNombre(datos.getNombre());
     division.setDescripcion(datos.getDescripcion());
 
-    // Al editar, vuelve a quedar pendiente de aprobación
     division.setEstado(EstadoAprobacion.PENDIENTE);
 
     return divisionRepository.save(division);
