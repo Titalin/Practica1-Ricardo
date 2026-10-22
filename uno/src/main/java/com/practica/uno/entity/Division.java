@@ -1,8 +1,11 @@
+
 package com.practica.uno.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "divisiones")
@@ -24,6 +27,9 @@ public class Division {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private EstadoAprobacion estado = EstadoAprobacion.PENDIENTE;
+
+    @OneToMany(mappedBy = "division")
+    private List<Carrera> carreras = new ArrayList<>();
 
     public Division() {
     }
@@ -58,5 +64,13 @@ public class Division {
 
     public void setEstado(EstadoAprobacion estado) {
         this.estado = estado;
+    }
+
+    public List<Carrera> getCarreras() {
+        return carreras;
+    }
+
+    public void setCarreras(List<Carrera> carreras) {
+        this.carreras = carreras;
     }
 }
