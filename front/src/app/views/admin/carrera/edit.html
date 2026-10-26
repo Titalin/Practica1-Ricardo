@@ -1,0 +1,32 @@
+<div class="panel">
+  <h1>Editar carrera</h1>
+
+  @if (error()) { <p class="aviso error" role="alert">{{ error() }}</p> }
+
+  @if (cargando()) {
+    <p>Cargando carrera…</p>
+  } @else if (carrera()) {
+    <form class="carrera-form" (ngSubmit)="guardar()">
+      <label for="nombre">Nombre de la carrera:</label>
+      <input id="nombre" name="nombre" type="text" maxlength="100"
+             placeholder="Nuevo nombre" [(ngModel)]="nombre">
+
+      <label for="division">División:</label>
+      <select id="division" name="divisionId" [(ngModel)]="divisionId">
+        @for (d of divisiones(); track d.id) {
+          <option [ngValue]="d.id">{{ etiquetaDivision(d) }}</option>
+        }
+      </select>
+
+      <label for="descripcion">Descripción (opcional):</label>
+      <textarea id="descripcion" name="descripcion" maxlength="500" [(ngModel)]="descripcion"></textarea>
+
+      <div class="carrera-acciones">
+        <button type="submit" [disabled]="guardando()">Guardar cambios</button>
+        <a class="boton" routerLink="/admin/carrera">Cancelar</a>
+      </div>
+    </form>
+  } @else {
+    <a class="boton" routerLink="/admin/carrera">Volver a carreras</a>
+  }
+</div>

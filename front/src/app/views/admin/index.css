@@ -1,0 +1,21 @@
+/* Menú del panel de administración */
+.menu {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.menu a {
+  display: block;
+  padding: 25px 15px;
+  text-align: center;
+  font-size: 18px;
+  color: #234a77;
+  background: #e8eef5;
+  border: 1px solid #b8c8da;
+  border-radius: 8px;
+  text-decoration: none;
+}
+
+.menu a:hover { background: #cbdced; }

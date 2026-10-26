@@ -1,0 +1,25 @@
+<main class="panel catalogo">
+  <h1>Carreras universitarias</h1>
+  <h2>Divisiones</h2>
+
+  @if (cargando()) {
+    <p class="centro">Cargando carreras…</p>
+  } @else if (error()) {
+    <p class="aviso error" role="alert">{{ error() }}</p>
+  } @else if (divisiones().length === 0) {
+    <p class="centro">Por el momento no hay carreras disponibles.</p>
+  } @else {
+    @for (division of divisiones(); track division.id) {
+      <section>
+        <h3>{{ division.nombre }}</h3>
+        <ul>
+          @for (carrera of division.carreras; track carrera.id) {
+            <li>{{ carrera.nombre }}</li>
+          }
+        </ul>
+      </section>
+    }
+  }
+
+  <p class="centro"><a class="boton" routerLink="/">Volver al inicio</a></p>
+</main>

@@ -1,0 +1,25 @@
+h1, h2, h3 {
+  text-align: center;
+}
+
+h3 {
+  font-size: 24px;
+}
+
+ul {
+  margin-bottom: 30px;
+}
+
+li {
+  font-size: 20px;
+  margin: 15px;
+}
+
+.estado {
+  text-align: center;
+  font-size: 18px;
+}
+
+.error {
+  color: #b00020;
+}

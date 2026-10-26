@@ -1,0 +1,34 @@
+<div class="panel">
+  <h1>Carreras registradas</h1>
+
+  @if (mensaje()) { <p class="aviso ok" role="status">{{ mensaje() }}</p> }
+  @if (error()) { <p class="aviso error" role="alert">{{ error() }}</p> }
+
+  <a class="boton" routerLink="/admin/carrera/agregar">Agregar carrera</a>
+  <hr>
+
+  @if (cargando()) {
+    <p>Cargando carreras…</p>
+  } @else if (carreras().length === 0) {
+    <p>Aún no hay carreras registradas.</p>
+  } @else {
+    @for (carrera of carreras(); track carrera.id) {
+      <div class="item" [class.oculta]="!carrera.visible">
+        <h3>{{ carrera.nombre }}</h3>
+        <p class="detalle">
+          División: {{ carrera.divisionNombre }}
+          @if (!carrera.visible) { · <strong>Oculta en el inicio</strong> }
+        </p>
+        <a class="boton" [routerLink]="['/admin/carrera/editar', carrera.id]">Editar</a>
+        <button type="button" (click)="eliminar(carrera)">Eliminar</button>
+        <button type="button" (click)="alternarVisibilidad(carrera)">
+          {{ carrera.visible ? 'Ocultar del inicio' : 'Mostrar en inicio' }}
+        </button>
+      </div>
+    }
+  }
+
+  <hr>
+  <a class="boton" routerLink="/admin">Volver al panel</a>
+  <a class="boton" routerLink="/">Volver al inicio</a>
+</div>

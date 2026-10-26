@@ -1,0 +1,92 @@
+<div class="panel">
+
+  <h1>Panel de Coordinador</h1>
+
+  @if (mensaje()) {
+    <p class="aviso ok" role="status">{{ mensaje() }}</p>
+  }
+  @if (error()) {
+    <p class="aviso error" role="alert">{{ error() }}</p>
+  }
+
+  <hr>
+
+  <h2>Agregar carrera</h2>
+
+  <form (ngSubmit)="agregar()">
+    <label for="nuevo-nombre">Nombre de la carrera:</label>
+    <input id="nuevo-nombre" name="nuevoNombre" type="text" maxlength="100"
+           placeholder="Nombre de la carrera" [(ngModel)]="nuevoNombre">
+
+    <label for="nueva-division">División:</label>
+    <select id="nueva-division" name="nuevaDivisionId" [(ngModel)]="nuevaDivisionId">
+      <option [ngValue]="null" disabled>Selecciona una división</option>
+      @for (d of divisiones(); track d.id) {
+        <option [ngValue]="d.id">{{ etiquetaDivision(d) }}</option>
+      }
+    </select>
+
+    <button type="submit" [disabled]="guardando()">Agregar carrera</button>
+  </form>
+
+  @if (!cargando() && divisiones().length === 0) {
+    <p class="nota">No hay divisiones registradas, así que todavía no se pueden agregar carreras.</p>
+  }
+
+  <hr>
+
+  <h2>Carreras registradas</h2>
+
+  @if (cargando()) {
+    <p>Cargando carreras…</p>
+  } @else if (carreras().length === 0) {
+    <p>Aún no hay carreras registradas.</p>
+  } @else {
+    @for (carrera of carreras(); track carrera.id) {
+      <div class="carrera" [class.oculta]="!carrera.visible">
+        <h3>{{ carrera.nombre }}</h3>
+        <p class="detalle">
+          División: {{ carrera.divisionNombre }}
+          @if (!carrera.visible) {
+            · <strong>Oculta en el inicio</strong>
+          }
+        </p>
+        <button type="button" (click)="iniciarEdicion(carrera)">Editar</button>
+        <button type="button" (click)="eliminar(carrera)">Eliminar</button>
+        <button type="button" (click)="alternarVisibilidad(carrera)">
+          {{ carrera.visible ? 'Ocultar del inicio' : 'Mostrar en inicio' }}
+        </button>
+      </div>
+    }
+  }
+
+  @if (editando(); as carrera) {
+    <hr>
+
+    <h2>Editar carrera</h2>
+
+    <form (ngSubmit)="guardarEdicion()">
+      <label for="edit-nombre">Nombre de la carrera:</label>
+      <input id="edit-nombre" name="editNombre" type="text" maxlength="100"
+             placeholder="Nuevo nombre" [(ngModel)]="editNombre">
+
+      <label for="edit-division">División:</label>
+      <select id="edit-division" name="editDivisionId" [(ngModel)]="editDivisionId">
+        @for (d of divisiones(); track d.id) {
+          <option [ngValue]="d.id">{{ etiquetaDivision(d) }}</option>
+        }
+      </select>
+
+      <button type="submit" [disabled]="guardando()">Guardar cambios</button>
+      <button type="button" (click)="cancelarEdicion()">Cancelar</button>
+    </form>
+  }
+
+  <hr>
+
+  <h2>Opciones</h2>
+
+  <button type="button" (click)="volverAlInicio()">Volver al inicio</button>
+  <button type="button" (click)="cerrarSesion()">Cerrar sesión</button>
+
+</div>

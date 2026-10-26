@@ -1,0 +1,34 @@
+<div class="panel">
+  <h1>Agregar carrera</h1>
+
+  @if (error()) { <p class="aviso error" role="alert">{{ error() }}</p> }
+
+  @if (!cargando() && divisiones().length === 0) {
+    <p class="nota">
+      No hay divisiones registradas. Primero
+      <a routerLink="/admin/division/agregar">crea una división</a>.
+    </p>
+  }
+
+  <form class="carrera-form" (ngSubmit)="guardar()">
+    <label for="nombre">Nombre de la carrera:</label>
+    <input id="nombre" name="nombre" type="text" maxlength="100"
+           placeholder="Nombre de la carrera" [(ngModel)]="nombre">
+
+    <label for="division">División:</label>
+    <select id="division" name="divisionId" [(ngModel)]="divisionId">
+      <option [ngValue]="null" disabled>Selecciona una división</option>
+      @for (d of divisiones(); track d.id) {
+        <option [ngValue]="d.id">{{ etiquetaDivision(d) }}</option>
+      }
+    </select>
+
+    <label for="descripcion">Descripción (opcional):</label>
+    <textarea id="descripcion" name="descripcion" maxlength="500" [(ngModel)]="descripcion"></textarea>
+
+    <div class="carrera-acciones">
+      <button type="submit" [disabled]="guardando()">Agregar carrera</button>
+      <a class="boton" routerLink="/admin/carrera">Cancelar</a>
+    </div>
+  </form>
+</div>

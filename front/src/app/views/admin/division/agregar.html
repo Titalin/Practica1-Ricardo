@@ -1,0 +1,19 @@
+<div class="panel">
+  <h1>Agregar división</h1>
+
+  @if (error()) { <p class="aviso error" role="alert">{{ error() }}</p> }
+
+  <form (ngSubmit)="guardar()">
+    <label for="nombre">Nombre de la división:</label>
+    <input id="nombre" name="nombre" type="text" maxlength="100"
+           placeholder="Nombre de la división" [(ngModel)]="nombre">
+
+    <label for="descripcion">Descripción (opcional):</label>
+    <textarea id="descripcion" name="descripcion" maxlength="500" [(ngModel)]="descripcion"></textarea>
+
+    <p class="nota">La división quedará pendiente hasta que el secretario la apruebe.</p>
+
+    <button type="submit" [disabled]="guardando()">Agregar división</button>
+    <a class="boton" routerLink="/admin/division">Cancelar</a>
+  </form>
+</div>

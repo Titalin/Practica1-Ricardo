@@ -1,4 +1,3 @@
-
 package com.practica.uno.entity;
 
 import jakarta.persistence.*;
@@ -21,6 +20,12 @@ public class Carrera {
     @Size(max = 500)
     @Column(length = 500)
     private String descripcion;
+
+    // Si es false, la carrera NO aparece en la pantalla de inicio.
+    // columnDefinition con default permite que "ddl-auto=update" agregue la
+    // columna aunque la tabla ya tenga registros.
+    @Column(nullable = false, columnDefinition = "boolean default true")
+    private boolean visible = true;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "division_id", nullable = false)
@@ -51,6 +56,14 @@ public class Carrera {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 
     public Division getDivision() {

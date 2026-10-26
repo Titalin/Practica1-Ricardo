@@ -1,0 +1,35 @@
+<div class="panel">
+  <h1>Divisiones registradas</h1>
+
+  @if (mensaje()) { <p class="aviso ok" role="status">{{ mensaje() }}</p> }
+  @if (error()) { <p class="aviso error" role="alert">{{ error() }}</p> }
+
+  <a class="boton" routerLink="/admin/division/agregar">Agregar división</a>
+  <hr>
+
+  @if (cargando()) {
+    <p>Cargando divisiones…</p>
+  } @else if (divisiones().length === 0) {
+    <p>Aún no hay divisiones registradas.</p>
+  } @else {
+    @for (d of divisiones(); track d.id) {
+      <div class="item">
+        <h3>
+          {{ d.nombre }}
+          <span class="etiqueta" [class.aprobado]="d.estado === 'APROBADO'"
+                [class.rechazado]="d.estado === 'RECHAZADO'" [class.pendiente]="d.estado === 'PENDIENTE'">
+            {{ etiqueta[d.estado] }}
+          </span>
+        </h3>
+        <p class="detalle">{{ d.descripcion || 'Sin descripción' }} · {{ d.carreras.length }} carrera(s)</p>
+        <a class="boton" [routerLink]="['/admin/division/editar', d.id]">Editar</a>
+        <button type="button" (click)="eliminar(d)">Eliminar</button>
+      </div>
+    }
+    <p class="nota">Al editar una división vuelve a quedar pendiente de aprobación por el secretario.</p>
+  }
+
+  <hr>
+  <a class="boton" routerLink="/admin">Volver al panel</a>
+  <a class="boton" routerLink="/">Volver al inicio</a>
+</div>

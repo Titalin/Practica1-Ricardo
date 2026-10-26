@@ -1,0 +1,47 @@
+<div class="panel">
+  <h1>Panel de Secretario</h1>
+
+  @if (mensaje()) { <p class="aviso ok" role="status">{{ mensaje() }}</p> }
+  @if (error()) { <p class="aviso error" role="alert">{{ error() }}</p> }
+
+  <hr>
+  <h2>Divisiones pendientes de aprobación</h2>
+
+  @if (cargando()) {
+    <p>Cargando divisiones…</p>
+  } @else if (pendientes().length === 0) {
+    <p>No hay divisiones pendientes.</p>
+  } @else {
+    @for (d of pendientes(); track d.id) {
+      <div class="item">
+        <h3>{{ d.nombre }}</h3>
+        <p class="detalle">{{ d.descripcion || 'Sin descripción' }} · {{ d.carreras.length }} carrera(s)</p>
+        <button type="button" (click)="cambiarEstado(d, 'APROBADO')">Aprobar</button>
+        <button type="button" (click)="cambiarEstado(d, 'RECHAZADO')">Rechazar</button>
+      </div>
+    }
+  }
+
+  <hr>
+  <h2>Divisiones revisadas</h2>
+
+  @if (!cargando() && revisadas().length === 0) {
+    <p>Todavía no hay divisiones revisadas.</p>
+  }
+  @for (d of revisadas(); track d.id) {
+    <div class="item">
+      <h3>
+        {{ d.nombre }}
+        <span class="etiqueta" [class.aprobado]="d.estado === 'APROBADO'" [class.rechazado]="d.estado === 'RECHAZADO'">
+          {{ etiqueta[d.estado] }}
+        </span>
+      </h3>
+      <button type="button" [disabled]="d.estado === 'APROBADO'" (click)="cambiarEstado(d, 'APROBADO')">Aprobar</button>
+      <button type="button" [disabled]="d.estado === 'RECHAZADO'" (click)="cambiarEstado(d, 'RECHAZADO')">Rechazar</button>
+      <button type="button" (click)="cambiarEstado(d, 'PENDIENTE')">Volver a pendiente</button>
+    </div>
+  }
+
+  <hr>
+  <a class="boton" routerLink="/">Volver al inicio</a>
+</div>

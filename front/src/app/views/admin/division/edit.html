@@ -1,0 +1,25 @@
+<div class="panel">
+  <h1>Editar división</h1>
+
+  @if (error()) { <p class="aviso error" role="alert">{{ error() }}</p> }
+
+  @if (cargando()) {
+    <p>Cargando división…</p>
+  } @else if (division()) {
+    <form (ngSubmit)="guardar()">
+      <label for="nombre">Nombre de la división:</label>
+      <input id="nombre" name="nombre" type="text" maxlength="100"
+             placeholder="Nuevo nombre" [(ngModel)]="nombre">
+
+      <label for="descripcion">Descripción (opcional):</label>
+      <textarea id="descripcion" name="descripcion" maxlength="500" [(ngModel)]="descripcion"></textarea>
+
+      <p class="nota">Al guardar, la división vuelve a quedar pendiente de aprobación.</p>
+
+      <button type="submit" [disabled]="guardando()">Guardar cambios</button>
+      <a class="boton" routerLink="/admin/division">Cancelar</a>
+    </form>
+  } @else {
+    <a class="boton" routerLink="/admin/division">Volver a divisiones</a>
+  }
+</div>

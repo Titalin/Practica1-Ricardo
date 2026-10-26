@@ -1,22 +1,11 @@
-
 package com.practica.uno.controller;
 
-import com.practica.uno.entity.Division;
+import com.practica.uno.dto.DivisionRequest;
+import com.practica.uno.dto.DivisionResponse;
 import com.practica.uno.service.DivisionService;
-
 import jakarta.validation.Valid;
-
-
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,36 +19,33 @@ public class DivisionController {
         this.divisionService = divisionService;
     }
 
+    /** Todas las divisiones (panel del coordinador). */
     @GetMapping
-    public List<Division> obtenerDivisiones() {
+    public List<DivisionResponse> obtenerDivisiones() {
         return divisionService.obtenerTodas();
     }
 
-    
-@PostMapping
-@ResponseStatus(HttpStatus.CREATED)
-public Division agregarDivision(
-        @Valid @RequestBody Division division) {
-    return divisionService.guardarDivision(division);
+    /** Vista pública: divisiones aprobadas con sus carreras visibles. */
+    @GetMapping("/inicio")
+    public List<DivisionResponse> obtenerParaInicio() {
+        return divisionService.obtenerParaInicio();
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public DivisionResponse agregarDivision(@Valid @RequestBody DivisionRequest division) {
+        return divisionService.guardarDivision(division);
+    }
+
+    @PutMapping("/{id}")
+    public DivisionResponse actualizarDivision(@PathVariable Long id,
+                                               @Valid @RequestBody DivisionRequest division) {
+        return divisionService.actualizarDivision(id, division);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void eliminarDivision(@PathVariable Long id) {
+        divisionService.eliminarDivision(id);
+    }
 }
-
-
-@PutMapping("/{id}")
-public Division actualizarDivision(
-        @PathVariable Long id,
-        @Valid @RequestBody Division division) {
-
-    return divisionService.actualizarDivision(id, division);
-}
-
-
-@DeleteMapping("/{id}")
-@ResponseStatus(HttpStatus.NO_CONTENT)
-public void eliminarDivision(@PathVariable Long id) {
-
-    divisionService.eliminarDivision(id);
-}
-
-
-}
-
